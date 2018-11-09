@@ -1,4 +1,4 @@
-# cargo inspect 
+# cargo-inspect 
 
 What is Rust doing behind the scenes?
 
@@ -27,7 +27,7 @@ cargo install cargo-inspect
 Call it on any Rust file:
 
 ```
-cargo inspect main.rs
+cargo-inspect main.rs
 ```
 
 ## Background
@@ -86,6 +86,8 @@ fn main() {
     }
 }
 ```
+
+You can see that the `if let` was desugared into a `match` statement.
 
 Please find more examples in the `examples` folder.
 
