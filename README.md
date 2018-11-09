@@ -54,6 +54,8 @@ Mystery! Exploration! Discovery!
 
 ## Code Examples
 
+### `If-let` gets desugared into `match`
+
 Consider the following code snippet:
 
 ```rust
@@ -89,7 +91,9 @@ fn main() {
 
 You can see that the `if let` was desugared into a `match` statement.
 
-Please find more examples in the `examples` folder.
+### More examples
+
+Please find more examples in the `examples` folder. You can also contribute more.
 
 ## The Magic Sauce
 
