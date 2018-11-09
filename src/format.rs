@@ -1,5 +1,5 @@
 use errors::InspectError;
-use std::io::{Read, Write};
+use std::io::Write;
 use std::process::Command;
 use std::process::Stdio;
 

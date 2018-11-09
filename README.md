@@ -27,7 +27,7 @@ cargo install cargo-inspect
 Call it on any Rust file:
 
 ```
-cargo inspect src/lib.rs
+cargo inspect main.rs
 ```
 
 ## Background
@@ -54,6 +54,40 @@ Mystery! Exploration! Discovery!
 
 ## Code Examples
 
+Consider the following code snippet:
+
+```rust
+fn main() {
+    if let Some(x) = Some(1) {
+        // Do something with x
+    }
+}
+```
+
+When you compile it, the first thing Rust does is desugar it. To see what the code looks like after this step, run
+
+```
+cargo-inspect examples/if_let.rs
+```
+
+This produces the following output:
+
+```rust
+#[prelude_import]
+use std::prelude::v1::*;
+#[macro_use]
+extern crate std;
+fn main() {
+    match Some(1) {
+        Some(x) => {
+            // Do something with x
+        }
+        _ => (),
+    }
+}
+```
+
+Please find more examples in the `examples` folder.
 
 ## The Magic Sauce
 
