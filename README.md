@@ -8,8 +8,8 @@ What is Rust doing behind the scenes?
 
 ## Installation
 
-You need Rust nightly and rustfmt to get started.  
-Use [rustup] to get one:
+You need Rust nightly and `rustfmt` to get started.  
+You can install those via [rustup]:
 
 ```
 rustup install nightly
