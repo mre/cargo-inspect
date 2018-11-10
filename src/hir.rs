@@ -5,10 +5,10 @@ use std::process::Command;
 // TODO: This should probably not take a filename,
 // but take a String as an input.
 // Would make testing easier.
-pub fn get_hir(path: PathBuf) -> Result<String, InspectError> {
+pub fn get_hir(path: PathBuf, unpretty: String) -> Result<String, InspectError> {
     let output = Command::new("rustc")
         .arg("+nightly")
-        .arg("-Zunpretty=hir")
+        .arg(format!("-Zunpretty={}", unpretty))
         .arg(path)
         .output()?;
     let stderr = String::from_utf8(output.stderr)?;
