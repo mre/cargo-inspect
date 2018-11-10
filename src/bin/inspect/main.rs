@@ -31,11 +31,19 @@ enum Opt {
         /// rustc "unpretty" parameters
         #[structopt(long = "unpretty", default_value = "hir")]
         unpretty: String,
+
+        /// Theme for syntax highlighting. See syntex documentation for options
+        #[structopt(long = "theme", default_value = "base16-ocean.dark")]
+        theme: String,
     },
 }
 
 fn main() {
-    let Opt::Inspect { input, unpretty } = Opt::from_args();
-    let output = inspect(input, unpretty).expect("Cannot fetch formatted result");
+    let Opt::Inspect {
+        input,
+        unpretty,
+        theme,
+    } = Opt::from_args();
+    let output = inspect(input, unpretty, theme).expect("Cannot fetch formatted result");
     println!("{}", output);
 }

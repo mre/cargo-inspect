@@ -28,8 +28,8 @@ use std::path::PathBuf;
 
 /// inspect takes a path to a Rust file as an input and returns
 /// the desugared output.
-pub fn inspect(path: PathBuf, unpretty: String) -> Result<String, InspectError> {
+pub fn inspect(path: PathBuf, unpretty: String, theme: String) -> Result<String, InspectError> {
     let hir = get_hir(path, unpretty)?;
     let formatted = format(hir)?;
-    highlight(formatted)
+    highlight(formatted, theme)
 }

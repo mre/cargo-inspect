@@ -30,6 +30,25 @@ Call it on any Rust file:
 cargo inspect main.rs
 ```
 
+## Configuration 
+
+```
+USAGE:
+    cargo inspect [OPTIONS] <INPUT_FILE>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+        --theme <theme>          Theme for syntax highlighting. See syntex documentation for options [default: base16-
+                                 ocean.dark]
+        --unpretty <unpretty>    rustc "unpretty" parameters [default: hir]
+
+ARGS:
+    <INPUT_FILE>    Input file
+```
+
 ## Background
 
 Rust allows for a lot of syntactic sugar, that makes it a pleasure to write.
