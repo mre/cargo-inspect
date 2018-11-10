@@ -24,7 +24,7 @@ version = "0.1.0"
 
 [[bin]]
 name = "cargo-inspect"
-path = "src/bin/main.rs"
+path = "src/bin/inspect/main.rs"
 
 [dependencies]
 failure = "0.1.3"

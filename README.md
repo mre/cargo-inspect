@@ -1,4 +1,4 @@
-# cargo-inspect 
+# cargo inspect 
 
 What is Rust doing behind the scenes?
 
@@ -27,7 +27,7 @@ cargo install cargo-inspect
 Call it on any Rust file:
 
 ```
-cargo-inspect main.rs
+cargo inspect main.rs
 ```
 
 ## Background
@@ -69,7 +69,7 @@ fn main() {
 When you compile it, the first thing Rust does is desugar it. To see what the code looks like after this step, run
 
 ```
-cargo-inspect examples/if_let.rs
+cargo inspect examples/if_let.rs
 ```
 
 This produces the following output:
@@ -105,7 +105,6 @@ To work its magic, it runs the following commands:
 2. `rustfmt`, for formatting the output.
 3. [`syntect`](https://github.com/trishume/syntect/blob/master/examples/syncat.rs), for syntax-highlighting.
 
-
 ## Contributing
 
 This is a young project, which has downsides and upsides.
@@ -120,7 +119,6 @@ Thus, become a contributor today!
 As of now, this is a very fragile tool. If it fails, it ~~might~~ will produce
 horrible error messages.  
 You have been warned.
-
 
 ## License
 
