@@ -93,20 +93,7 @@ cargo inspect examples/if_let.rs
 
 This produces the following output:
 
-```rust
-#[prelude_import]
-use std::prelude::v1::*;
-#[macro_use]
-extern crate std;
-fn main() {
-    match Some(1) {
-        Some(x) => {
-            // Do something with x
-        }
-        _ => (),
-    }
-}
-```
+![Please run the command to reproduce the desugared output](assets/if-let.png)
 
 You can see that the `if let` was desugared into a `match` statement.
 
