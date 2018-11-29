@@ -42,8 +42,7 @@ fn main() {
     let Opt::Inspect {
         input,
         unpretty,
-        theme,
+        theme: _, // TODO: pass through theme
     } = Opt::from_args();
-    let output = inspect(input, unpretty, theme).expect("Cannot fetch formatted result");
-    println!("{}", output);
+    inspect(input, unpretty).expect("Cannot print result")
 }

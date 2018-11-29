@@ -1,3 +1,4 @@
+use prettyprint::PrettyPrintError;
 use std::io::Error as IoError;
 use std::string::FromUtf8Error;
 
@@ -16,6 +17,12 @@ pub enum InspectError {
     /// Error while invoking rustfmt
     #[fail(display = "{}", _0)]
     Rustfmt(String),
+    /// Error while invoking prettyprint
+    #[fail(display = "{}", _0)]
+    PrettyPrint(String),
+    /// Other error
+    #[fail(display = "{}", _0)]
+    Generic(String),
 }
 
 impl From<IoError> for InspectError {
@@ -27,5 +34,17 @@ impl From<IoError> for InspectError {
 impl From<FromUtf8Error> for InspectError {
     fn from(e: FromUtf8Error) -> Self {
         InspectError::Utf8(e)
+    }
+}
+
+impl From<String> for InspectError {
+    fn from(e: String) -> Self {
+        InspectError::Generic(e)
+    }
+}
+
+impl From<PrettyPrintError> for InspectError {
+    fn from(e: PrettyPrintError) -> Self {
+        InspectError::PrettyPrint(e.description().to_string())
     }
 }
