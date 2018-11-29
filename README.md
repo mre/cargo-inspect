@@ -123,8 +123,7 @@ Thus, become a contributor today!
 ## Known issues
 
 As of now, this is a very fragile tool. If it fails, it ~~might~~ will produce
-horrible error messages.  
-You have been warned.
+horrible output. You have been warned. That said, it won't eat your code, of course. :blush:
 
 ## License
 
