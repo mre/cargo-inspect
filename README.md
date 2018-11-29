@@ -109,7 +109,7 @@ To work its magic, it runs the following commands:
 
 1. `rustc -Zinspect=hir`, for retrieving the HIR.
 2. `rustfmt`, for formatting the output.
-3. [`syntect`](https://github.com/trishume/syntect/blob/master/examples/syncat.rs), for syntax-highlighting.
+3. [`prettyprint`](https://github.com/mre/prettyprint), for syntax-highlighting, which is just a wrapper around the awesome [syntect](https://github.com/trishume/syntect/blob/master/examples/syncat.rs) and [bat](https://github.com/sharkdp/bat/) crates.
 
 ## Contributing
 
