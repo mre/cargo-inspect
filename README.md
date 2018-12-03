@@ -3,8 +3,8 @@
 What is Rust doing behind the scenes?
 
 > There are only two ways to live your life.  
-> One is as though nothing is a miracle. 
-> The other is as though everything is a miracle. -- Albert Einstein
+> One is as though nothing is a miracle. The other is as though everything is a
+> miracle. -- Albert Einstein
 
 ## Installation
 
@@ -51,11 +51,13 @@ ARGS:
 
 ## Background
 
-Rust allows for a lot of syntactic sugar, that makes it a pleasure to write.
-It is sometimes hard, however, to look behind the curtain and see what the compiler is really doing with our code.
+Rust allows for a lot of syntactic sugar, that makes it a pleasure to write. It
+is sometimes hard, however, to look behind the curtain and see what the compiler
+is really doing with our code.
 
-To quote @tshepang, 
-"It is good to know what these conveniences are, to avoid being mystified by what's going on under the hood... the less magical thinking we have of the world, the better."
+To quote @tshepang, "It is good to know what these conveniences are, to avoid
+being mystified by what's going on under the hood... the less magical thinking
+we have of the world, the better."
 
 * lifetime elisions
 * type inference
@@ -64,8 +66,8 @@ To quote @tshepang,
 * type coercions
 * hidden code (e.g. the prelude)
 
-I was always interested in how programming languages work in the background,
-how my code was unrolled to the compiler backend easier to maintain.
+I was always interested in how programming languages work in the background, how
+my code was unrolled to the compiler backend easier to maintain.
 
 The goal is to make the compiler more approachable for mere-mortals.  
 Mystery! Exploration! Discovery! 
@@ -85,7 +87,8 @@ fn main() {
 }
 ```
 
-When you compile it, the first thing Rust does is desugar it. To see what the code looks like after this step, run
+When you compile it, the first thing Rust does is desugar it. To see what the
+code looks like after this step, run
 
 ```
 cargo inspect examples/if_let.rs
@@ -99,17 +102,21 @@ You can see that the `if let` was desugared into a `match` statement.
 
 ### More examples
 
-Please find more examples in the `examples` folder. You can also contribute more.
+Please find more examples in the `examples` folder. You can also contribute
+more.
 
 ## The Magic Sauce
 
-The best things in the world are assembled from simple building blocks.
-This tool stands on the shoulders of giants.
-To work its magic, it runs the following commands:
+The best things in the world are assembled from simple building blocks. This
+tool stands on the shoulders of giants. To work its magic, it runs the following
+commands:
 
 1. `rustc -Zinspect=hir`, for retrieving the HIR.
 2. `rustfmt`, for formatting the output.
-3. [`prettyprint`](https://github.com/mre/prettyprint), for syntax-highlighting, which is just a wrapper around the awesome [syntect](https://github.com/trishume/syntect/blob/master/examples/syncat.rs) and [bat](https://github.com/sharkdp/bat/) crates.
+3. [`prettyprint`](https://github.com/mre/prettyprint), for syntax-highlighting,
+   which is just a wrapper around the awesome
+   [syntect](https://github.com/trishume/syntect/blob/master/examples/syncat.rs)
+   and [bat](https://github.com/sharkdp/bat/) crates.
 
 ## Contributing
 
@@ -123,13 +130,15 @@ Thus, become a contributor today!
 ## Known issues
 
 As of now, this is a very fragile tool. If it fails, it ~~might~~ will produce
-horrible output. You have been warned. That said, it won't eat your code, of course. :blush:
+horrible output. You have been warned. That said, it won't eat your code, of
+course. :blush:
 
 ## License
 
 Licensed under either of
 
-* Apache License, Version 2.0, (LICENSE-APACHE or http://www.apache.org/licenses/LICENSE-2.0)
+* Apache License, Version 2.0, (LICENSE-APACHE or
+  http://www.apache.org/licenses/LICENSE-2.0)
 * MIT license (LICENSE-MIT or http://opensource.org/licenses/MIT)
 
 at your option.
