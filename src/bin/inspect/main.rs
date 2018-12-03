@@ -12,29 +12,12 @@
 )]
 
 extern crate cargo_inspect;
-
 extern crate structopt;
 
-use cargo_inspect::inspect;
-use std::path::PathBuf;
+use cargo_inspect::{config, inspect};
 use structopt::StructOpt;
 
-#[derive(StructOpt, Debug)]
-#[structopt(bin_name = "cargo")]
-enum Opt {
-    #[structopt(name = "inspect")]
-    Inspect {
-        /// Input file
-        #[structopt(name = "INPUT_FILE", parse(from_os_str))]
-        input: PathBuf,
-
-        /// rustc "unpretty" parameters
-        #[structopt(long = "unpretty", default_value = "hir")]
-        unpretty: String,
-    },
-}
-
 fn main() {
-    let Opt::Inspect { input, unpretty } = Opt::from_args();
-    inspect(input, unpretty).expect("Cannot print result")
+    let config::Opt::Config(config) = config::Opt::from_args();
+    inspect(config).expect("Cannot print result")
 }
