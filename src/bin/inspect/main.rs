@@ -31,18 +31,10 @@ enum Opt {
         /// rustc "unpretty" parameters
         #[structopt(long = "unpretty", default_value = "hir")]
         unpretty: String,
-
-        /// Theme for syntax highlighting. See syntex documentation for options
-        #[structopt(long = "theme", default_value = "base16-ocean.dark")]
-        theme: String,
     },
 }
 
 fn main() {
-    let Opt::Inspect {
-        input,
-        unpretty,
-        theme: _, // TODO: pass through theme
-    } = Opt::from_args();
+    let Opt::Inspect { input, unpretty } = Opt::from_args();
     inspect(input, unpretty).expect("Cannot print result")
 }

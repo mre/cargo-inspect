@@ -41,8 +41,6 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-        --theme <theme>          Theme for syntax highlighting. See syntex documentation for options [default: base16-
-                                 ocean.dark]
         --unpretty <unpretty>    rustc "unpretty" parameters [default: hir]
 
 ARGS:
