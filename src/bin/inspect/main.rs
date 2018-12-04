@@ -12,18 +12,23 @@
 )]
 
 extern crate cargo_inspect;
-extern crate structopt;
 extern crate failure;
+extern crate structopt;
 
 use failure::Fail;
 
+use crate::cargo_inspect::errors::InspectError;
 use cargo_inspect::{config, inspect};
 use std::process;
 use structopt::StructOpt;
 
-fn main() {
+fn run() -> Result<(), InspectError> {
     let config::Opt::Config(config) = config::Opt::from_args();
-    if let Err(err) = inspect(config) {
+    inspect(config)
+}
+
+fn main() {
+    if let Err(err) = run() {
         eprintln!("Command failed:\n{}\n", err);
 
         for cause in Fail::iter_causes(&err) {
