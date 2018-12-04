@@ -1,4 +1,4 @@
-use errors::InspectError;
+use crate::errors::InspectError;
 use std::io::Write;
 use std::process::Command;
 use std::process::Stdio;

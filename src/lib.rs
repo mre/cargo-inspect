@@ -14,7 +14,6 @@
 #[macro_use]
 extern crate failure;
 
-#[macro_use]
 extern crate structopt;
 
 extern crate prettyprint;
@@ -23,24 +22,24 @@ extern crate syntect;
 /// Available configuration settings when using cargo-inspect as a library
 pub mod config;
 
-mod errors;
+/// Contains all types defined for error handling
+pub mod errors;
 mod format;
 mod hir;
 
 use prettyprint::PrettyPrinter;
 
-pub use config::{Config, Opt};
-pub use errors::InspectError;
-use format::format;
-use hir::get_hir;
+pub use crate::config::{Config, Opt};
+pub use crate::errors::InspectError;
+use crate::format::format;
 
 /// inspect takes a Rust file as an input and returns
 /// the desugared output.
 pub fn inspect(config: Config) -> Result<(), InspectError> {
-    let hir = get_hir(config.input.as_path(), config.unpretty)?;
-    let formatted = format(hir)?;
+    let hir = hir::get_hir(config.input, config.unpretty)?;
+    let formatted = format(hir.output)?;
 
     let printer = PrettyPrinter::default().language("rust").build()?;
-    printer.string_with_header(formatted, config.input.to_string_lossy().to_string())?;
+    printer.string_with_header(formatted, hir.source)?;
     Ok(())
 }

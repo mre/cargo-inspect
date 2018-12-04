@@ -7,7 +7,7 @@ use structopt::StructOpt;
 pub struct Config {
     /// Input file
     #[structopt(name = "INPUT_FILE", parse(from_os_str))]
-    pub input: PathBuf,
+    pub input: Option<PathBuf>,
 
     /// rustc "unpretty" parameters
     #[structopt(long = "unpretty", default_value = "hir")]
