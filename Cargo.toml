@@ -8,6 +8,7 @@ categories = [
 ]
 description = "This extends Cargo to allow you to desugar your Rust code and see what happens behind the curtains."
 documentation = "https://github.com/mre/cargo-inspect/blob/master/README.md"
+edition = "2018"
 homepage = "https://github.com/mre/cargo-inspect"
 keywords = [
     "cargo",

@@ -1,5 +1,5 @@
 fn main() {
-    if let Some(x) = Some(1) {
+    if let Some(_x) = Some(1) {
         // Do something with x
     }
 }
