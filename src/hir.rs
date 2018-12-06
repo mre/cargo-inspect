@@ -51,7 +51,7 @@ pub fn from_crate(unpretty: String) -> Result<HIR, InspectError> {
             .ok_or_else(|| "Cannot read from stderr".to_string())?,
     );
     for line in stderr.lines() {
-        let line = line.unwrap();
+        let line = line?;
         let stripped_line = line.trim();
         if !stripped_line.is_empty() {
             pb.set_message(&stripped_line.to_lowercase());

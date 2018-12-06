@@ -5,3 +5,7 @@ build:
 .PHONY: install
 install:
 	cargo install --force --path .
+
+.PHONY: test
+test:
+	cargo test
