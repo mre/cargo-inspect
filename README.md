@@ -30,6 +30,15 @@ Call it on any Rust file:
 cargo inspect main.rs
 ```
 
+If you don't specify a file, the current crate will be analyzed instead.
+
+```
+cargo inspect
+```
+
+Depending on the size of the crate, this might take a while.  
+Please be patient.
+
 ## Configuration 
 
 ```
