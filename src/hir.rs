@@ -10,13 +10,6 @@ pub struct HIR {
     pub output: String,
 }
 
-pub fn get_hir(input: Option<PathBuf>, unpretty: String) -> Result<HIR, InspectError> {
-    match input {
-        Some(path) => from_file(path, unpretty),
-        None => from_crate(unpretty),
-    }
-}
-
 // TODO: This should probably not take a filename,
 // but take a String as an input.
 // Would make testing easier.

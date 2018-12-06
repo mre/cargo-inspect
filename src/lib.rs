@@ -32,14 +32,35 @@ use prettyprint::PrettyPrinter;
 pub use crate::config::{Config, Opt};
 pub use crate::errors::InspectError;
 use crate::format::format;
+use crate::hir::HIR;
 
 /// inspect takes a Rust file as an input and returns
 /// the desugared output.
 pub fn inspect(config: Config) -> Result<(), InspectError> {
-    let hir = hir::get_hir(config.input, config.unpretty)?;
+    let hir = match config.input {
+        Some(_) => inspect_file(config),
+        None => inspect_crate(config),
+    }?;
+
     let formatted = format(hir.output)?;
 
     let printer = PrettyPrinter::default().language("rust").build()?;
     printer.string_with_header(formatted, hir.source)?;
     Ok(())
+}
+
+/// Run cargo-inspect on a file
+fn inspect_file(config: Config) -> Result<HIR, InspectError> {
+    // if config.verbose {
+    //     comment_code(config.input);
+    // }
+    hir::from_file(config.input.ok_or_else(|| "No file to analyze".to_string())?, config.unpretty)
+}
+
+/// Run cargo-inspect on a crate
+fn inspect_crate(config: Config) -> Result<HIR, InspectError> {
+    // if config.verbose {
+    //     comment_code(config.input);
+    // }
+    hir::from_crate(config.unpretty)
 }
