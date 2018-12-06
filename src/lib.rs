@@ -16,6 +16,7 @@ extern crate failure;
 
 extern crate structopt;
 
+extern crate indicatif;
 extern crate prettyprint;
 extern crate syntect;
 
