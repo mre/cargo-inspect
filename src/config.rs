@@ -13,9 +13,9 @@ pub struct Config {
     #[structopt(long = "unpretty", default_value = "hir")]
     pub unpretty: String,
 
-    /// Print the original code-line above the desugared code
+    /// Print the original code as a comment above the desugared code
     #[structopt(short = "v", long = "verbose")]
-    pub verbose: Option<bool>,
+    pub verbose: bool,
 }
 
 /// The structopt enum, which serves as an adapter so that the config options

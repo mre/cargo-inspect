@@ -22,6 +22,7 @@ extern crate syntect;
 /// Available configuration settings when using cargo-inspect as a library
 pub mod config;
 
+mod comment;
 /// Contains all types defined for error handling
 pub mod errors;
 mod format;
@@ -29,6 +30,7 @@ mod hir;
 
 use prettyprint::PrettyPrinter;
 
+use crate::comment::comment_file;
 pub use crate::config::{Config, Opt};
 pub use crate::errors::InspectError;
 use crate::format::format;
@@ -51,16 +53,19 @@ pub fn inspect(config: Config) -> Result<(), InspectError> {
 
 /// Run cargo-inspect on a file
 fn inspect_file(config: Config) -> Result<HIR, InspectError> {
-    // if config.verbose {
-    //     comment_code(config.input);
-    // }
-    hir::from_file(config.input.ok_or_else(|| "No file to analyze".to_string())?, config.unpretty)
+    let input = config
+        .input
+        .ok_or_else(|| "No file to analyze".to_string())?;
+    if config.verbose {
+        comment_file(&input)?;
+    }
+    hir::from_file(input, config.unpretty)
 }
 
 /// Run cargo-inspect on a crate
 fn inspect_crate(config: Config) -> Result<HIR, InspectError> {
     // if config.verbose {
-    //     comment_code(config.input);
+    //     comment_crate()?;
     // }
     hir::from_crate(config.unpretty)
 }
