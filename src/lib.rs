@@ -65,8 +65,12 @@ fn inspect_file(config: Config) -> Result<HIR, InspectError> {
 
 /// Run cargo-inspect on a crate
 fn inspect_crate(config: Config) -> Result<HIR, InspectError> {
-    // if config.verbose {
-    //     comment_crate()?;
-    // }
+    if config.verbose {
+        unimplemented!(
+            "Verbose option doesn't work for crates yet. \
+             See https://github.com/mre/cargo-inspect/issues/5"
+        )
+        // comment_crate()?;
+    }
     hir::from_crate(config.unpretty)
 }
