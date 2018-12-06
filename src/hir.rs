@@ -40,12 +40,8 @@ pub fn from_file(path: PathBuf, unpretty: String) -> Result<HIR, InspectError> {
 
 pub fn from_crate(unpretty: String) -> Result<HIR, InspectError> {
     let pb = ProgressBar::new_spinner();
-    pb.enable_steady_tick(200);
-    pb.set_style(
-        ProgressStyle::default_spinner()
-            .tick_chars("/|\\- ")
-            .template("{spinner:.dim.bold} Compiling {wide_msg}"),
-    );
+    pb.enable_steady_tick(100);
+    pb.set_style(ProgressStyle::default_spinner().template("{spinner} cargo {wide_msg}"));
 
     let mut p = process::Command::new("cargo")
         .arg("+nightly")
@@ -56,27 +52,25 @@ pub fn from_crate(unpretty: String) -> Result<HIR, InspectError> {
         .stdout(process::Stdio::piped())
         .spawn()?;
 
-    for line in BufReader::new(p.stderr.take().ok_or_else(|| "Cannot read from stderr".to_string())?).lines() {
+    let stderr = BufReader::new(
+        p.stderr
+            .take()
+            .ok_or_else(|| "Cannot read from stderr".to_string())?,
+    );
+    for line in stderr.lines() {
         let line = line.unwrap();
         let stripped_line = line.trim();
         if !stripped_line.is_empty() {
-            pb.set_message(stripped_line);
+            pb.set_message(&stripped_line.to_lowercase());
         }
         pb.tick();
     }
 
-    let mut output = String::new();
-    for line in BufReader::new(p.stdout.take().ok_or_else(|| "Cannot read from stdout".to_string())?).lines() {
-        let line = line.unwrap();
-        output.push_str(&line);
-    }
-    p.wait().unwrap();
-
+    let out = p.wait_with_output()?;
     pb.finish_and_clear();
 
     Ok(HIR {
         source: "crate".to_string(),
-        // output: String::from_utf8(BufReader::new(p.stdout.unwrap()).lines().collect::<String>())?,
-        output: output,
+        output: String::from_utf8(out.stdout)?,
     })
 }
