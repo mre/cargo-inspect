@@ -13,11 +13,14 @@ pub fn comment_file(path: &PathBuf) -> Result<(), InspectError> {
         .filter_map(Result::ok)
         .map(|line| line.trim().to_string())
         .map(|line| {
-            if line.is_empty() || is_block(&line) {
+            let line = if line.is_empty() || is_comment(&line) || is_block(&line) {
+                // Don't touch non-code lines.
                 line
             } else {
-                format!("{}\n{}\n", comment(&line), line)
-            }
+                // Duplicate line (one commented, one uncommented)
+                format!("{}\n{}", add_marker("before: ", &line), line)
+            };
+            format!("{}\n", line)
         })
         .collect();
 
@@ -45,11 +48,8 @@ fn is_block(line: &str) -> bool {
     false
 }
 
-fn comment(line: &str) -> String {
-    match is_comment(line) {
-        true => line.to_string(),
-        false => format!("// {}", line),
-    }
+fn add_marker(marker: &str, line: &str) -> String {
+    format!("// {}{}", marker, line)
 }
 
 #[cfg(test)]
@@ -66,12 +66,9 @@ mod tests {
     }
 
     #[test]
-    fn test_comment() {
-        assert_eq!(comment("a test"), "// a test");
-        assert_eq!(comment("// a test"), "// a test");
-        assert_eq!(comment("/// doc test"), "/// doc test");
-        assert_eq!(comment("//! doc test"), "//! doc test");
-        assert_eq!(comment("//* doc test"), "//* doc test");
+    fn test_add_marker() {
+        assert_eq!(add_marker("", "a test"), "// a test");
+        assert_eq!(add_marker("marker: ", "a test"), "// marker: a test");
     }
 
     #[test]

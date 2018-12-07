@@ -15,7 +15,7 @@ pub struct HIR {
 // TODO: This should probably not take a filename,
 // but take a String as an input.
 // Would make testing easier.
-pub fn from_file(path: PathBuf, unpretty: String) -> Result<HIR, InspectError> {
+pub fn from_file(path: PathBuf, unpretty: &str) -> Result<HIR, InspectError> {
     let output = Command::new("rustc")
         .arg("+nightly")
         .arg(format!("-Zunpretty={}", unpretty))
@@ -31,7 +31,7 @@ pub fn from_file(path: PathBuf, unpretty: String) -> Result<HIR, InspectError> {
     })
 }
 
-pub fn from_crate(unpretty: String) -> Result<HIR, InspectError> {
+pub fn from_crate(unpretty: &str) -> Result<HIR, InspectError> {
     let pb = ProgressBar::new_spinner();
     pb.enable_steady_tick(100);
     pb.set_style(ProgressStyle::default_spinner().template("{spinner} cargo {wide_msg}"));

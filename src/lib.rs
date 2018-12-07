@@ -11,15 +11,6 @@
     unused_qualifications
 )]
 
-#[macro_use]
-extern crate failure;
-
-extern crate structopt;
-
-extern crate indicatif;
-extern crate prettyprint;
-extern crate syntect;
-
 /// Available configuration settings when using cargo-inspect as a library
 pub mod config;
 
@@ -39,7 +30,7 @@ use crate::hir::HIR;
 
 /// inspect takes a Rust file as an input and returns
 /// the desugared output.
-pub fn inspect(config: Config) -> Result<(), InspectError> {
+pub fn inspect(config: &Config) -> Result<(), InspectError> {
     let hir = match config.input {
         Some(_) => inspect_file(config),
         None => inspect_crate(config),
@@ -53,18 +44,19 @@ pub fn inspect(config: Config) -> Result<(), InspectError> {
 }
 
 /// Run cargo-inspect on a file
-fn inspect_file(config: Config) -> Result<HIR, InspectError> {
-    let input = config
-        .input
-        .ok_or_else(|| "No file to analyze".to_string())?;
+fn inspect_file(config: &Config) -> Result<HIR, InspectError> {
+    let input = match &config.input {
+        Some(input) => input,
+        None => return Err(InspectError::Generic("No file to analyze".to_string())),
+    };
     if config.verbose {
         comment_file(&input)?;
     }
-    hir::from_file(input, config.unpretty)
+    hir::from_file(input.into(), &config.unpretty)
 }
 
 /// Run cargo-inspect on a crate
-fn inspect_crate(config: Config) -> Result<HIR, InspectError> {
+fn inspect_crate(config: &Config) -> Result<HIR, InspectError> {
     if config.verbose {
         unimplemented!(
             "Verbose option doesn't work for crates yet. \
@@ -72,5 +64,5 @@ fn inspect_crate(config: Config) -> Result<HIR, InspectError> {
         )
         // comment_crate()?;
     }
-    hir::from_crate(config.unpretty)
+    hir::from_crate(&config.unpretty)
 }
