@@ -13,7 +13,7 @@
 
 use failure::Fail;
 
-use cargo_inspect::{errors::InspectError,config, inspect};
+use cargo_inspect::{config, errors::InspectError, inspect};
 use std::process;
 use structopt::StructOpt;
 
