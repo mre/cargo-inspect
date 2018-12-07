@@ -48,6 +48,7 @@ USAGE:
 FLAGS:
     -h, --help       Prints help information
     -V, --version    Prints version information
+    -v, --verbose    Print the original code as a comment above the desugared code
 
 OPTIONS:
         --unpretty <unpretty>    rustc "unpretty" parameters [default: hir]
