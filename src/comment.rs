@@ -1,14 +1,13 @@
 use crate::errors::InspectError;
-use std::fs::File;
-use std::io::{BufRead, BufReader, Write};
-use std::path::{Path, PathBuf};
-use tempfile::NamedTempFile;
+use std::fs::{self, File};
+use std::io::{BufRead, BufReader};
+use std::path::Path;
 
 /// Add comments to the inspected code. Copy each code line as a comment above
 /// the line. This is kind of a crude but effective method. In the long run,
 /// this might be a nice feature for rustc however.
-pub fn comment_file(path: &Path) -> Result<PathBuf, InspectError> {
-    let file = File::open(path)?;
+pub fn comment_file(input: &Path) -> Result<(), InspectError> {
+    let file = File::open(input)?;
     let commented: String = BufReader::new(file)
         .lines()
         .filter_map(Result::ok)
@@ -25,12 +24,8 @@ pub fn comment_file(path: &Path) -> Result<PathBuf, InspectError> {
         })
         .collect();
 
-    // Write the result into a temporary file to avoid mutating the input file.
-    // NamedTempFile is is NOT secure/reliable in the presence of a pathological
-    // temporary file cleaner.
-    let mut tmpfile = NamedTempFile::new()?;
-    tmpfile.write_all(commented.as_bytes())?;
-    Ok(tmpfile.path().to_path_buf())
+    fs::write(input, commented)?;
+    Ok(())
 }
 
 fn is_comment(line: &str) -> bool {
