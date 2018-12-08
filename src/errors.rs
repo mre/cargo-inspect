@@ -1,3 +1,5 @@
+use failure::Fail;
+
 use prettyprint::PrettyPrintError;
 use std::io::Error as IoError;
 use std::string::FromUtf8Error;
