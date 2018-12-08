@@ -12,7 +12,7 @@ pub struct HIR {
     pub output: String,
 }
 
-// TODO: This should probably not take a filename,
+// TODO: This should probably not take a path,
 // but take a String as an input.
 // Would make testing easier.
 pub fn from_file(path: PathBuf, unpretty: &str) -> Result<HIR, InspectError> {

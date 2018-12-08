@@ -27,6 +27,7 @@ pub use crate::config::{Config, Opt};
 pub use crate::errors::InspectError;
 use crate::format::format;
 use crate::hir::HIR;
+use std::path::PathBuf;
 
 /// inspect takes a Rust file as an input and returns
 /// the desugared output.
@@ -45,14 +46,17 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
 
 /// Run cargo-inspect on a file
 fn inspect_file(config: &Config) -> Result<HIR, InspectError> {
-    let input = match &config.input {
+    let input: &PathBuf = match &config.input {
         Some(input) => input,
         None => return Err(InspectError::Generic("No file to analyze".to_string())),
     };
-    if config.verbose {
-        comment_file(&input)?;
-    }
-    hir::from_file(input.into(), &config.unpretty)
+
+    let input = match config.verbose {
+        true => comment_file(input.as_path())?,
+        false => input.into(),
+    };
+
+    hir::from_file(input, &config.unpretty)
 }
 
 /// Run cargo-inspect on a crate
