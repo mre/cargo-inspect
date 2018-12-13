@@ -13,7 +13,7 @@ You can install those via [rustup]:
 
 ```
 rustup install nightly
-rustup component add rustfmt-preview
+rustup component add rustfmt
 ```
 
 All set? Let's get cracking!
