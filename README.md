@@ -47,6 +47,7 @@ USAGE:
 
 FLAGS:
     -h, --help       Prints help information
+        --plain      Don't highlight output
     -V, --version    Prints version information
     -v, --verbose    Print the original code as a comment above the desugared code
 

@@ -16,6 +16,10 @@ pub struct Config {
     /// Print the original code as a comment above the desugared code
     #[structopt(short = "v", long = "verbose")]
     pub verbose: bool,
+
+    /// Don't highlight output
+    #[structopt(long = "plain")]
+    pub plain: bool,
 }
 
 /// The structopt enum, which serves as an adapter so that the config options

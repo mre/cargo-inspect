@@ -42,10 +42,13 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
 
     let formatted = format(hir.output)?;
 
-    let printer = PrettyPrinter::default().language("rust").build()?;
-
-    let header = config.input.to_owned().unwrap_or(env::current_dir()?);
-    printer.string_with_header(formatted, header.to_string_lossy().to_string())?;
+    if config.plain {
+        println!("{}", formatted);
+    } else {
+        let printer = PrettyPrinter::default().language("rust").build()?;
+        let header = config.input.to_owned().unwrap_or(env::current_dir()?);
+        printer.string_with_header(formatted, header.to_string_lossy().to_string())?;
+    }
     Ok(())
 }
 
