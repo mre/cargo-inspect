@@ -1,4 +1,6 @@
-# cargo inspect 
+# cargo-inspect
+
+![Logo](./assets/logo.svg)
 
 What is Rust doing behind the scenes?
 
@@ -154,3 +156,8 @@ Licensed under either of
 at your option.
 
 [rustup]: https://rustup.rs/
+
+
+## Credits
+
+Magnifying glass designed by [Rawpixel.com]( https://www.freepik.com/free-vector/illustration-of-a-magnifying-glass_2945064.htm) 
