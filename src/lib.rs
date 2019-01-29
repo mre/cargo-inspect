@@ -40,7 +40,13 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
         None => inspect_crate(config),
     }?;
 
-    let formatted = format(hir.output)?;
+    let mut formatted = format(&hir.output)?;
+    if formatted.is_empty() {
+        // In case of an error, rustfmt returns an empty string
+        // and we continue with the unformatted output.
+        // Not ideal, but better than panicking.
+        formatted = hir.output;
+    }
 
     if config.plain {
         println!("{}", formatted);

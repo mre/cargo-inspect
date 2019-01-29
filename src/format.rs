@@ -5,7 +5,7 @@ use std::process::Stdio;
 
 // TODO: This should not call rustfmt from the commandline.
 // Instead, we should use it as a library. Oh well.
-pub fn format(input: String) -> Result<String, InspectError> {
+pub fn format(input: &String) -> Result<String, InspectError> {
     let mut cmd = Command::new("rustfmt")
         .arg("--emit")
         .arg("stdout")
