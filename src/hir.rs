@@ -13,6 +13,8 @@ pub struct HIR {
     pub output: String,
 }
 
+use log::debug;
+
 // TODO: This should probably not take a path,
 // but take a String as an input.
 // Would make testing easier.
@@ -53,6 +55,7 @@ pub fn from_crate(unpretty: &str) -> Result<HIR, InspectError> {
     );
     for line in stderr.lines() {
         let line = line?;
+        debug!("{}", line);
         let stripped_line = line.trim();
         if !stripped_line.is_empty() {
             pb.set_message(&stripped_line.to_lowercase());

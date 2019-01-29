@@ -11,26 +11,29 @@
     unused_qualifications
 )]
 
+use std::env;
+use std::fs::{self, File};
+use std::path::PathBuf;
+use tempfile::tempdir;
+
 /// Available configuration settings when using cargo-inspect as a library
 pub mod config;
 
-mod comment;
 /// Contains all types defined for error handling
 pub mod errors;
+
+mod comment;
 mod format;
 mod hir;
 
 use prettyprint::PrettyPrinter;
 
-use crate::comment::comment_file;
 pub use crate::config::{Config, Opt};
 pub use crate::errors::InspectError;
+
+use crate::comment::comment_file;
 use crate::format::format;
 use crate::hir::HIR;
-use std::env;
-use std::fs::{self, File};
-use std::path::PathBuf;
-use tempfile::tempdir;
 
 /// inspect takes a Rust file or crate as an input and returns the desugared
 /// output.

@@ -23,6 +23,7 @@ fn run() -> Result<(), InspectError> {
 }
 
 fn main() {
+    env_logger::init();
     if let Err(err) = run() {
         eprintln!("Command failed:\n{}\n", err);
 
