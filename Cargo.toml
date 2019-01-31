@@ -21,7 +21,7 @@ license = "Apache-2.0/MIT"
 name = "cargo-inspect"
 readme = "README.md"
 repository = "https://github.com/mre/cargo-inspect"
-version = "0.6.0"
+version = "0.7.0"
 
 [[bin]]
 name = "cargo-inspect"
