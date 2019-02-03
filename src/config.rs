@@ -1,5 +1,20 @@
+use std::error::Error;
 use std::path::PathBuf;
 use structopt::StructOpt;
+
+fn parse_tuple<T>(s: &str) -> Result<(T, T), Box<Error>>
+where
+    T: std::str::FromStr,
+    T::Err: Error + 'static,
+{
+    let pos = s.find(',').ok_or_else(|| {
+        format!(
+            "Expected format: file1.rs,file2.rs. No `,` found in `{}`",
+            s
+        )
+    })?;
+    Ok((s[..pos].parse()?, s[pos + 1..].parse()?))
+}
 
 /// Holds all configuration options when using
 /// cargo-inspect as a library.
@@ -8,6 +23,10 @@ pub struct Config {
     /// Input file
     #[structopt(name = "INPUT_FILE", parse(from_os_str))]
     pub input: Option<PathBuf>,
+
+    /// Diff input files
+    #[structopt(long = "diff", parse(try_from_str = "parse_tuple"))]
+    pub files: Option<(String, String)>,
 
     /// rustc "unpretty" parameters
     #[structopt(long = "unpretty", default_value = "hir")]
