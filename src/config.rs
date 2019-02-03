@@ -1,5 +1,5 @@
-use std::path::PathBuf;
 use std::error::Error;
+use std::path::PathBuf;
 use structopt::StructOpt;
 
 fn parse_tuple<T>(s: &str) -> Result<(T, T), Box<Error>>
@@ -7,9 +7,12 @@ where
     T: std::str::FromStr,
     T::Err: Error + 'static,
 {
-    let pos = s
-        .find(',')
-        .ok_or_else(|| format!("Expected format: file1.rs,file2.rs. No `,` found in `{}`", s))?;
+    let pos = s.find(',').ok_or_else(|| {
+        format!(
+            "Expected format: file1.rs,file2.rs. No `,` found in `{}`",
+            s
+        )
+    })?;
     Ok((s[..pos].parse()?, s[pos + 1..].parse()?))
 }
 
@@ -22,7 +25,7 @@ pub struct Config {
     pub input: Option<PathBuf>,
 
     /// Diff input files
-    #[structopt(long= "diff", parse(try_from_str = "parse_tuple"))]
+    #[structopt(long = "diff", parse(try_from_str = "parse_tuple"))]
     pub files: Option<(String, String)>,
 
     /// rustc "unpretty" parameters

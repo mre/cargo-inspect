@@ -22,9 +22,9 @@ pub mod config;
 pub mod errors;
 
 mod comment;
+mod diff;
 mod format;
 mod hir;
-mod diff;
 mod tmpfile;
 
 use prettyprint::PrettyPrinter;
@@ -32,22 +32,30 @@ use prettyprint::PrettyPrinter;
 pub use crate::config::{Config, Opt};
 pub use crate::errors::InspectError;
 
-pub use crate::tmpfile::tmpfile;
-pub use crate::diff::diff;
 use crate::comment::comment_file;
+pub use crate::diff::diff;
 use crate::format::format;
 use crate::hir::HIR;
+pub use crate::tmpfile::tmpfile;
 
 /// inspect takes a Rust file or crate as an input and returns the desugared
 /// output.
 pub fn inspect(config: &Config) -> Result<(), InspectError> {
     let output = match &config.files {
-        Some(files) => { 
-            let hir0 = inspect_file(PathBuf::from(files.0.clone()), config.verbose, config.unpretty.clone())?;
-            let hir1 = inspect_file(PathBuf::from(files.1.clone()), config.verbose, config.unpretty.clone())?;
-            diff(hir0.output, hir1.output)?
-        },
-       None => inspect_single(config)?,
+        Some(files) => {
+            let hir0 = inspect_file(
+                PathBuf::from(files.0.clone()),
+                config.verbose,
+                config.unpretty.clone(),
+            )?;
+            let hir1 = inspect_file(
+                PathBuf::from(files.1.clone()),
+                config.verbose,
+                config.unpretty.clone(),
+            )?;
+            diff(try_format(hir0.output)?, try_format(hir1.output)?)?
+        }
+        None => inspect_single(config)?,
     };
 
     if config.plain {
@@ -67,15 +75,7 @@ pub fn inspect_single(config: &Config) -> Result<String, InspectError> {
         Some(input) => inspect_file(input, config.verbose, config.unpretty.clone()),
         None => inspect_crate(config),
     }?;
-
-    let mut formatted = format(&hir.output)?;
-    if formatted.is_empty() {
-        // In case of an error, rustfmt returns an empty string
-        // and we continue with the unformatted output.
-        // Not ideal, but better than panicking.
-        formatted = hir.output;
-    }
-    Ok(formatted)
+    Ok(try_format(hir.output)?)
 }
 
 /// Run cargo-inspect on a file
@@ -106,4 +106,17 @@ fn inspect_crate(config: &Config) -> Result<HIR, InspectError> {
         // comment_crate()?;
     }
     hir::from_crate(&config.unpretty)
+}
+
+// TODO: This should really be more idiomatic;
+// maybe by having a `Formatted` type and a `let fmt = Formatted::try_from(string);`
+fn try_format(input: String) -> Result<String, InspectError> {
+    let mut formatted = format(&input)?;
+    if formatted.is_empty() {
+        // In case of an error, rustfmt returns an empty string
+        // and we continue with the unformatted output.
+        // Not ideal, but better than panicking.
+        formatted = input;
+    }
+    Ok(formatted)
 }

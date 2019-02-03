@@ -1,12 +1,9 @@
-use std::process::Command;
-use std::path::PathBuf;
+use ansi_term::Colour::{Green, Red, White};
+use difference::{Changeset, Difference};
+
 pub use crate::errors::InspectError;
-pub use crate::tmpfile::write_tmp;
 
-use difference::{Difference, Changeset};
-use std::io::Write;
-use std::fs;
-
+/// Compare two strings and return a Github-style diff output
 pub fn diff(text1: String, text2: String) -> Result<String, InspectError> {
     let Changeset { diffs, .. } = Changeset::new(&text1, &text2, "\n");
 
@@ -15,47 +12,37 @@ pub fn diff(text1: String, text2: String) -> Result<String, InspectError> {
     for i in 0..diffs.len() {
         match diffs[i] {
             Difference::Same(ref x) => {
-                t.reset().unwrap();
-                writeln!(t, " {}", x);
+                t.push_str(&format!("\n{}", x));
             }
             Difference::Add(ref x) => {
                 match diffs[i - 1] {
                     Difference::Rem(ref y) => {
-                        t.fg(term::color::GREEN).unwrap();
-                        write!(t, "+");
+                        t.push_str(&Green.paint("\n+").to_string());
                         let Changeset { diffs, .. } = Changeset::new(y, x, " ");
                         for c in diffs {
                             match c {
                                 Difference::Same(ref z) => {
-                                    t.fg(term::color::GREEN).unwrap();
-                                    write!(t, "{}", z);
-                                    write!(t, " ");
+                                    t.push_str(&Green.paint(z).to_string());
+                                    t.push_str(&Green.paint(" ").to_string());
                                 }
                                 Difference::Add(ref z) => {
-                                    t.fg(term::color::WHITE).unwrap();
-                                    t.bg(term::color::GREEN).unwrap();
-                                    write!(t, "{}", z);
-                                    t.reset().unwrap();
-                                    write!(t, " ");
+                                    t.push_str(&White.on(Green).paint(z).to_string());
+                                    t.push_str(" ");
                                 }
                                 _ => (),
                             }
                         }
-                        writeln!(t, "");
+                        t.push_str("");
                     }
                     _ => {
-                        t.fg(term::color::BRIGHT_GREEN).unwrap();
-                        writeln!(t, "+{}", x);
+                        t.push_str(&Green.paint(format!("\n+{}", x).to_string()));
                     }
                 };
             }
             Difference::Rem(ref x) => {
-                t.fg(term::color::RED).unwrap();
-                writeln!(t, "-{}", x);
+                t.push_str(&Red.paint(format!("\n-{}", x)).to_string());
             }
         }
     }
-    // t.reset().unwrap();
-    // t.flush().unwrap();
     Ok(t)
 }
