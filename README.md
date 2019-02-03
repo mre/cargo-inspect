@@ -41,6 +41,12 @@ cargo inspect
 Depending on the size of the crate, this might take a while.  
 Please be patient.
 
+It can also compare two file outputs! Try this:
+
+```
+cargo inspect --diff examples/range.rs,examples/range_inclusive.rs --plain
+```
+
 ## Configuration 
 
 ```
