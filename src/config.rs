@@ -36,6 +36,11 @@ pub struct Config {
     #[structopt(short = "v", long = "verbose")]
     pub verbose: bool,
 
+    /// When this flag is specified we print out more detailed
+    /// error messages for rustfmt
+    #[structopt(long = "verbose-output")]
+    pub verbose_output : bool,
+
     /// Don't highlight output
     #[structopt(long = "plain")]
     pub plain: bool,
