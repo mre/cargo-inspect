@@ -118,6 +118,15 @@ This produces the following output:
 
 You can see that the `if let` was desugared into a `match` statement.
 
+To change the colorscheme, try `cargo-inspect --list-themes`, e.g.
+
+```
+cargo inspect examples/if_let.rs --theme GitHub
+```
+
+![Please run the command to reproduce the desugared output](assets/if-let-white.png)
+
+
 ### More examples
 
 Please find more examples in the `examples` folder. You can also contribute
