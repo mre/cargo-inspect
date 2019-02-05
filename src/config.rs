@@ -39,6 +39,10 @@ pub struct Config {
     /// Don't highlight output
     #[structopt(long = "plain")]
     pub plain: bool,
+
+    /// Specify a theme override for the pretty printer
+    #[structopt(name = "THEME", long="theme")]
+    pub theme : Option<String>,
 }
 
 /// The structopt enum, which serves as an adapter so that the config options
