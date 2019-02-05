@@ -25,8 +25,8 @@ pub fn format(input: &String) -> Result<String, InspectError> {
 
     let output = cmd.wait_with_output().expect("Failed to read stdout");
 
-    // Only log out formatting errors when the verbose flag is specified, 
-    // if the formatting failed we print out the plain text
+    // Only log formatting errors when `RUST_LOG=debug` is set. 
+    // If the formatting failed, we print out the plain text.
     if !output.stderr.is_empty() {
         debug!("Formatting failed with following errors:");
         use std::io::BufRead;
@@ -35,8 +35,6 @@ pub fn format(input: &String) -> Result<String, InspectError> {
             debug!("{}", line);
         }
     }
-
-
 
     Ok(String::from_utf8_lossy(&output.stdout).to_string())
 }
