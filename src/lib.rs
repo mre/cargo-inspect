@@ -53,7 +53,7 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
                 config.verbose,
                 config.unpretty.clone(),
             )?;
-            diff(try_format(hir0.output, config.verbose_output)?, try_format(hir1.output, config.verbose_output)?)?
+            diff(try_format(hir0.output)?, try_format(hir1.output)?)?
         }
         None => inspect_single(config)?,
     };
@@ -75,7 +75,7 @@ pub fn inspect_single(config: &Config) -> Result<String, InspectError> {
         Some(input) => inspect_file(input, config.verbose, config.unpretty.clone()),
         None => inspect_crate(config),
     }?;
-    Ok(try_format(hir.output, config.verbose_output)?)
+    Ok(try_format(hir.output)?)
 }
 
 /// Run cargo-inspect on a file
@@ -110,8 +110,8 @@ fn inspect_crate(config: &Config) -> Result<HIR, InspectError> {
 
 // TODO: This should really be more idiomatic;
 // maybe by having a `Formatted` type and a `let fmt = Formatted::try_from(string);`
-fn try_format(input: String, verbose : bool) -> Result<String, InspectError> {
-    let mut formatted = format(&input,verbose)?;
+fn try_format(input: String) -> Result<String, InspectError> {
+    let mut formatted = format(&input)?;
     if formatted.is_empty() {
         // In case of an error, rustfmt returns an empty string
         // and we continue with the unformatted output.
