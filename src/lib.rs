@@ -61,7 +61,13 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
     if config.plain {
         println!("{}", output);
     } else {
-        let printer = PrettyPrinter::default().language("rust").build()?;
+        let mut builder = PrettyPrinter::default();
+        builder.language("rust");
+        if let Some(theme) = &config.theme {
+            builder.theme(theme.clone());
+        }
+
+        let printer = builder.build()?;
         let header = config.input.to_owned().unwrap_or(env::current_dir()?);
         printer.string_with_header(output, header.to_string_lossy().to_string())?;
     }

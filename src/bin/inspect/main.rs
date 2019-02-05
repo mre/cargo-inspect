@@ -17,8 +17,22 @@ use cargo_inspect::{config, errors::InspectError, inspect};
 use std::process;
 use structopt::StructOpt;
 
+use prettyprint::PrettyPrinter;
+
 fn run() -> Result<(), InspectError> {
     let config::Opt::Config(config) = config::Opt::from_args();
+
+    // Handle list-themes command
+    if config.list_themes {
+        let printer = PrettyPrinter::default().build()?;
+        let themes = printer.get_themes();
+        eprintln!("Themes:");
+        for (path, _) in themes {
+            eprintln!("  {}", path);
+        }
+        return Ok(());
+    }
+
     inspect(&config)
 }
 
