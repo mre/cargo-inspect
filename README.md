@@ -2,6 +2,9 @@
 
 ![Logo](./assets/logo.svg)
 
+[![docs](https://docs.rs/cargo-inspect/badge.svg)](https://docs.rs/cargo-inspect/)
+[![Build Status](https://travis-ci.org/mre/cargo-inspect.svg?branch=master)](https://travis-ci.org/mre/cargo-inspect)
+
 What is Rust doing behind the scenes?
 
 > There are only two ways to live your life.  
