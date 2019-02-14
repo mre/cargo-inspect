@@ -29,6 +29,8 @@ pub struct Config {
     pub files: Option<(String, String)>,
 
     /// rustc "unpretty" parameters
+    /// 
+    /// *Note*: For `--unpretty=flowgraph=[symbol]` you need to have `dot` on your PATH.
     #[structopt(long = "unpretty", default_value = "hir")]
     pub unpretty: String,
 
