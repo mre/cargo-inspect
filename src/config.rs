@@ -29,7 +29,7 @@ pub struct Config {
     pub files: Option<(String, String)>,
 
     /// rustc "unpretty" parameters
-    /// 
+    ///
     /// *Note*: For `--unpretty=flowgraph=[symbol]` you need to have `dot` on your PATH.
     #[structopt(long = "unpretty", default_value = "hir")]
     pub unpretty: String,
@@ -43,12 +43,12 @@ pub struct Config {
     pub plain: bool,
 
     /// Specify a theme override for the pretty printer
-    #[structopt(name = "THEME", long="theme")]
-    pub theme : Option<String>,
+    #[structopt(name = "THEME", long = "theme")]
+    pub theme: Option<String>,
 
     /// Should we list all pretty printer themes?
-    #[structopt(long="list-themes")]
-    pub list_themes : bool,
+    #[structopt(long = "list-themes")]
+    pub list_themes: bool,
 }
 
 /// The structopt enum, which serves as an adapter so that the config options
@@ -56,9 +56,8 @@ pub struct Config {
 #[derive(StructOpt, Debug)]
 #[structopt(bin_name = "cargo")]
 pub enum Opt {
-    /// Config options are wrapped in an enum variant,
-    /// so that they can be destructured easily when calling
-    /// structops Opt::from_args().
     #[structopt(name = "inspect")]
+    /// This extends Cargo to allow you to desugar your Rust code and see what
+    /// happens behind the curtains.
     Config(Config),
 }
