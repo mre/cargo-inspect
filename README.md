@@ -54,19 +54,40 @@ cargo inspect --diff examples/range.rs,examples/range_inclusive.rs --plain
 
 ```
 USAGE:
-    cargo inspect [OPTIONS] <INPUT_FILE>
+    cargo inspect [FLAGS] [OPTIONS] [INPUT_FILE]
 
 FLAGS:
-    -h, --help       Prints help information
-        --plain      Don't highlight output
-    -V, --version    Prints version information
-    -v, --verbose    Print the original code as a comment above the desugared code
+    -h, --help           
+            Prints help information
+
+        --list-themes    
+            Should we list all pretty printer themes?
+
+        --plain          
+            Don't highlight output
+
+    -V, --version        
+            Prints version information
+
+    -v, --verbose        
+            Print the original code as a comment above the desugared code
+
 
 OPTIONS:
-        --unpretty <unpretty>    rustc "unpretty" parameters [default: hir]
+        --theme <THEME>          
+            Specify a theme override for the pretty printer
+
+        --diff <files>           
+            Diff input files
+
+        --unpretty <unpretty>    
+            rustc "unpretty" parameters
+            
+            *Note*: For `--unpretty=flowgraph=[symbol]` you need to have `dot` on your PATH. [default: hir]
 
 ARGS:
-    <INPUT_FILE>    Input file
+    <INPUT_FILE>    
+            Input file
 ```
 
 ## Background
@@ -129,6 +150,13 @@ cargo inspect examples/if_let.rs --theme GitHub
 
 ![Please run the command to reproduce the desugared output](assets/if-let-white.png)
 
+Oh, and if you have [`graphviz`](https://graphviz.gitlab.io/download/) installed, you can also print a pretty flowgraph from your code:
+
+```
+cargo inspect --unpretty=flowgraph=main examples/if_let.rs
+```
+
+![Please run the command to reproduce the desugared output](assets/if-let-flowgraph.png)
 
 ### More examples
 
