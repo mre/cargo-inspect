@@ -22,6 +22,12 @@ pub enum InspectError {
     /// Error while invoking prettyprint
     #[fail(display = "{}", _0)]
     PrettyPrint(String),
+    /// Error while trying to generate a flowgraph
+    #[fail(display = "{}", _0)]
+    Flowgraph(String),
+    /// Error invoking `dot`
+    #[fail(display = "{}", _0)]
+    DotExec(#[fail(cause)] IoError),
     /// Other error
     #[fail(display = "{}", _0)]
     Generic(String),

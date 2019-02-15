@@ -13,7 +13,10 @@
 
 use std::env;
 use std::fs;
+use std::fs::File;
+use std::io::Write;
 use std::path::PathBuf;
+use std::process::Command;
 
 /// Available configuration settings when using cargo-inspect as a library
 pub mod config;
@@ -60,6 +63,46 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
 
     if config.plain {
         println!("{}", output);
+    } else if config.unpretty.starts_with("flowgraph") {
+        if let Some(path) = &config.input {
+            let input_path = PathBuf::from(path);
+
+            // Extract the file name from our input path.
+            let file_name = input_path
+                .file_name()
+                .ok_or(InspectError::Flowgraph(String::from(
+                    "Invalid path found. The input path should be a file.",
+                )))?;
+
+            let mut output_path = PathBuf::from(file_name);
+            output_path.set_extension("png");
+
+            // Create a temporary file to dump out the plain output
+            let tmp_file_path = tmpfile()?;
+            let mut file = File::create(&tmp_file_path)?;
+            file.write_all(output.as_bytes())?;
+
+            // For now setup the correct `dot` arguments to write to a png
+            let output_str = output_path
+                .to_str()
+                .ok_or(InspectError::Flowgraph(String::from(
+                    "Failed to convert output path to string.",
+                )))?;
+
+            let input_str = tmp_file_path
+                .to_str()
+                .ok_or(InspectError::Flowgraph(String::from(
+                    "Failed to convert temporary path to string.",
+                )))?;
+
+            log::info!("Writing \"{}\"...", output_str);
+
+            let args = ["-Tpng", "-o", output_str, input_str];
+            Command::new("dot")
+                .args(&args)
+                .spawn()
+                .map_err(|e| InspectError::DotExec(e))?;
+        }
     } else {
         let mut builder = PrettyPrinter::default();
         builder.language("rust");
