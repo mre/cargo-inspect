@@ -8,6 +8,16 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.10.0] - 2019-02-21
+
+### Added
+
+- Ability to choose what kind of format a flowgraph is rendered to using the `--format` argument.
+
+### Changed
+
+- Default flowgraph format is now `svg`.
+
 ## [0.9.0] - 2019-02-15
 
 ### Added
