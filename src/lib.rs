@@ -75,7 +75,8 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
                 )))?;
 
             let mut output_path = PathBuf::from(file_name);
-            output_path.set_extension("png");
+            let ext = &config.format;
+            output_path.set_extension(&ext);
 
             // Create a temporary file to dump out the plain output
             let tmp_file_path = tmpfile()?;
@@ -97,7 +98,7 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
 
             log::info!("Writing \"{}\"...", output_str);
 
-            let args = ["-Tpng", "-o", output_str, input_str];
+            let args = [&format!("-T{}", ext), "-o", output_str, input_str];
             Command::new("dot")
                 .args(&args)
                 .spawn()
