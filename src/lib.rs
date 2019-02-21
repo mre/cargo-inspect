@@ -75,7 +75,7 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
                 )))?;
 
             let mut output_path = PathBuf::from(file_name);
-            let ext = "svg";
+            let ext = &config.format;
             output_path.set_extension(&ext);
 
             // Create a temporary file to dump out the plain output

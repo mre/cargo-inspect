@@ -34,6 +34,11 @@ pub struct Config {
     #[structopt(long = "unpretty", default_value = "hir")]
     pub unpretty: String,
 
+    /// Override for the format that gets outputted when the `unpretty` mode
+    /// is set to `flowgraph`
+    #[structopt(long = "format", default_value = "svg")]
+    pub format: String,
+
     /// Print the original code as a comment above the desugared code
     #[structopt(short = "v", long = "verbose")]
     pub verbose: bool,
