@@ -111,9 +111,9 @@ we have of the world, the better."
 * hidden code (e.g. the prelude)
 
 I was always interested in how programming languages work in the background, how
-my code was unrolled to the compiler backend easier to maintain.
+my code was unrolled to make the compiler backend easier to maintain.
 
-The goal is to make the compiler more approachable for mere.  
+The goal is to make the compiler more approachable for mere mortals.  
 Mystery! Exploration! Discovery! 
 
 Read more on the background of `cargo-inspect` [on my blog](https://matthias-endler.de/2018/cargo-inspect/).
