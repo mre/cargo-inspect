@@ -7,7 +7,7 @@ use log::debug;
 
 // TODO: This should not call rustfmt from the commandline.
 // Instead, we should use it as a library. Oh well.
-pub fn format(input: &String) -> Result<String, InspectError> {
+pub fn format(input: &str) -> Result<String, InspectError> {
     let mut builder = Command::new("rustfmt");
     builder
         .arg("--emit")
@@ -20,12 +20,12 @@ pub fn format(input: &String) -> Result<String, InspectError> {
 
     cmd.stdin
         .as_mut()
-        .ok_or(InspectError::Rustfmt("Cannot pipe input".to_string()))?
+        .ok_or_else(|| InspectError::Rustfmt("Cannot pipe input".to_string()))?
         .write_all(input.as_bytes())?;
 
     let output = cmd.wait_with_output().expect("Failed to read stdout");
 
-    // Only log formatting errors when `RUST_LOG=debug` is set. 
+    // Only log formatting errors when `RUST_LOG=debug` is set.
     // If the formatting failed, we print out the plain text.
     if !output.stderr.is_empty() {
         debug!("Formatting failed with following errors:");

@@ -68,11 +68,11 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
             let input_path = PathBuf::from(path);
 
             // Extract the file name from our input path.
-            let file_name = input_path
-                .file_name()
-                .ok_or(InspectError::Flowgraph(String::from(
+            let file_name = input_path.file_name().ok_or_else(|| {
+                InspectError::Flowgraph(String::from(
                     "Invalid path found. The input path should be a file.",
-                )))?;
+                ))
+            })?;
 
             let mut output_path = PathBuf::from(file_name);
             output_path.set_extension("png");
@@ -83,17 +83,13 @@ pub fn inspect(config: &Config) -> Result<(), InspectError> {
             file.write_all(output.as_bytes())?;
 
             // For now setup the correct `dot` arguments to write to a png
-            let output_str = output_path
-                .to_str()
-                .ok_or(InspectError::Flowgraph(String::from(
-                    "Failed to convert output path to string.",
-                )))?;
+            let output_str = output_path.to_str().ok_or_else(|| {
+                InspectError::Flowgraph(String::from("Failed to convert output path to string."))
+            })?;
 
-            let input_str = tmp_file_path
-                .to_str()
-                .ok_or(InspectError::Flowgraph(String::from(
-                    "Failed to convert temporary path to string.",
-                )))?;
+            let input_str = tmp_file_path.to_str().ok_or_else(|| {
+                InspectError::Flowgraph(String::from("Failed to convert temporary path to string."))
+            })?;
 
             log::info!("Writing \"{}\"...", output_str);
 
@@ -129,18 +125,17 @@ pub fn inspect_single(config: &Config) -> Result<String, InspectError> {
 
 /// Run cargo-inspect on a file
 fn inspect_file(input: PathBuf, verbose: bool, unpretty: String) -> Result<HIR, InspectError> {
-    let input = match verbose {
-        true => {
-            // Create a temporary copy of the input file,
-            // which contains comments for each input line
-            // to avoid modifying the original input file.
-            // This will be used as the input of rustc.
-            let tmp = tmpfile()?;
-            fs::copy(&input, &tmp)?;
-            comment_file(&tmp)?;
-            tmp
-        }
-        false => input.into(),
+    let input = if verbose {
+        // Create a temporary copy of the input file,
+        // which contains comments for each input line
+        // to avoid modifying the original input file.
+        // This will be used as the input of rustc.
+        let tmp = tmpfile()?;
+        fs::copy(&input, &tmp)?;
+        comment_file(&tmp)?;
+        tmp
+    } else {
+        input
     };
     hir::from_file(&input, &unpretty)
 }
