@@ -57,36 +57,39 @@ USAGE:
     cargo inspect [FLAGS] [OPTIONS] [INPUT_FILE]
 
 FLAGS:
-    -h, --help           
+    -h, --help
             Prints help information
 
-        --list-themes    
+        --list-themes
             Should we list all pretty printer themes?
 
-        --plain          
+        --plain
             Don't highlight output
 
-    -V, --version        
+    -V, --version
             Prints version information
 
-    -v, --verbose        
+    -v, --verbose
             Print the original code as a comment above the desugared code
 
 
 OPTIONS:
-        --theme <THEME>          
+        --theme <THEME>
             Specify a theme override for the pretty printer
 
-        --diff <files>           
+        --diff <files>
             Diff input files
 
-        --unpretty <unpretty>    
+        --format <format>
+            Override for the format that gets outputted when the `unpretty` mode is set to `flowgraph` [default: svg]
+
+        --unpretty <unpretty>
             rustc "unpretty" parameters
-            
+
             *Note*: For `--unpretty=flowgraph=[symbol]` you need to have `dot` on your PATH. [default: hir]
 
 ARGS:
-    <INPUT_FILE>    
+    <INPUT_FILE>
             Input file
 ```
 
@@ -108,9 +111,9 @@ we have of the world, the better."
 * hidden code (e.g. the prelude)
 
 I was always interested in how programming languages work in the background, how
-my code was unrolled to the compiler backend easier to maintain.
+my code was unrolled to make the compiler backend easier to maintain.
 
-The goal is to make the compiler more approachable for mere.  
+The goal is to make the compiler more approachable for mere mortals.  
 Mystery! Exploration! Discovery! 
 
 Read more on the background of `cargo-inspect` [on my blog](https://matthias-endler.de/2018/cargo-inspect/).
@@ -156,7 +159,7 @@ Oh, and if you have [`graphviz`](https://graphviz.gitlab.io/download/) installed
 cargo inspect --unpretty=flowgraph=main examples/if_let.rs
 ```
 
-![Please run the command to reproduce the desugared output](assets/if-let-flowgraph.png)
+![Please run the command to reproduce the desugared output](assets/if-let-flowgraph.svg)
 
 ### More examples
 
