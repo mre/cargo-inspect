@@ -25,7 +25,7 @@ pub struct Config {
     pub input: Option<PathBuf>,
 
     /// Diff input files
-    #[structopt(long = "diff", parse(try_from_str = "parse_tuple"))]
+    #[structopt(long = "diff", parse(try_from_str = parse_tuple))]
     pub files: Option<(String, String)>,
 
     /// rustc "unpretty" parameters

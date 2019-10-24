@@ -29,7 +29,7 @@ path = "src/bin/inspect/main.rs"
 
 [dependencies]
 failure = "0.1.6"
-structopt = "0.2.13"
+structopt = "0.3"
 syntect = "3.3.0"
 prettyprint = "0.7.1"
 indicatif = "0.12.0"
