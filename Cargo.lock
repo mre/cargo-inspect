@@ -149,7 +149,7 @@ dependencies = [
 
 [[package]]
 name = "cargo-inspect"
-version = "0.10.0"
+version = "0.10.2"
 dependencies = [
  "ansi_term 0.12.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "difference 2.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
