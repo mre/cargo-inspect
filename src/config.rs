@@ -2,7 +2,7 @@ use std::error::Error;
 use std::path::PathBuf;
 use structopt::StructOpt;
 
-fn parse_tuple<T>(s: &str) -> Result<(T, T), Box<Error>>
+fn parse_tuple<T>(s: &str) -> Result<(T, T), Box<dyn Error>>
 where
     T: std::str::FromStr,
     T::Err: Error + 'static,
