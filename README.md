@@ -5,7 +5,12 @@
 [![docs](https://docs.rs/cargo-inspect/badge.svg)](https://docs.rs/cargo-inspect/)
 [![Build Status](https://travis-ci.org/mre/cargo-inspect.svg?branch=master)](https://travis-ci.org/mre/cargo-inspect)
 
-What is Rust doing behind the scenes?
+## Thanks All!
+
+ℹ️ This crate was **superceded by [cargo-expand](https://github.com/dtolnay/cargo-expand)**, which added support for all the features that were missing
+when we started to work on cargo-inspect. Thanks all for your feedback and support.
+
+## What is Rust doing behind the scenes?
 
 > There are only two ways to live your life.  
 > One is as though nothing is a miracle. The other is as though everything is a
