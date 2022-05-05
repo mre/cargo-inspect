@@ -30,7 +30,7 @@ path = "src/bin/inspect/main.rs"
 [dependencies]
 failure = "0.1.8"
 structopt = "0.3.26"
-syntect = "4.7.1"
+syntect = "5.0.0"
 prettyprint = "0.8.1"
 indicatif = "0.15.0"
 tempfile = "3.3.0"
